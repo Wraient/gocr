@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { ProcessImage } from '../wailsjs/go/main/App'
+import { GetInitialImage, ProcessImageFile, GetImageData, ProcessImage } from '../wailsjs/go/main/App'
 import { main } from '../wailsjs/go/models'
 
 function App() {
@@ -8,25 +8,37 @@ function App() {
   const [scale, setScale] = useState<number>(1)
   const imageRef = useRef<HTMLImageElement>(null)
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const loadInitialImage = async () => {
+      try {
+        const initialPath = await GetInitialImage()
+        if (initialPath) {
+          const ocrResult = await ProcessImageFile(initialPath)
+          setOcrResult(ocrResult)
+
+          const imageData = await GetImageData(initialPath)
+          setImage(imageData)
+        }
+      } catch (error) {
+        console.error('Failed to load initial image:', error)
+      }
+    }
+    loadInitialImage()
+  }, [])
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         const result = e.target?.result as string
         setImage(result)
-        processOCR(result)
+        
+        // Process OCR using ProcessImage for base64 data
+        const ocrResult = await ProcessImage(result)
+        setOcrResult(ocrResult)
       }
       reader.readAsDataURL(file)
-    }
-  }
-
-  const processOCR = async (imageData: string) => {
-    try {
-      const result = await ProcessImage(imageData)
-      setOcrResult(result)
-    } catch (error) {
-      console.error('OCR processing failed:', error)
     }
   }
 
@@ -46,7 +58,7 @@ function App() {
     <div className="container">
       <input type="file" accept="image/*" onChange={handleImageUpload} />
       
-      <div className="image-container" style={{ position: 'relative' }}>
+      <div className="image-container">
         {image && <img ref={imageRef} src={image} alt="Uploaded image" />}
         
         {ocrResult?.boxes.map((box, index) => (
