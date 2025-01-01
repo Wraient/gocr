@@ -1,6 +1,6 @@
-# GoOCR
+# GOCR
 
-GoOCR is a simple yet effective Optical Character Recognition (OCR) application built in Go. With GoOCR, you can select an image file, extract text from it, and interact with the extracted text. The app lets you click on text boxes to copy specific pieces or view all the extracted text below the image. While not 100% accurate, it provides a user-friendly OCR experience.
+Gocr is a simple yet effective Optical Character Recognition (OCR) application built in Go. With GOCR, you can select an image file, extract text from it, and interact with the extracted text. The app lets you click on text boxes to copy specific pieces or view all the extracted text below the image. While not 100% accurate, it provides a user-friendly OCR experience.
 
 ## Demo
 
@@ -15,11 +15,11 @@ GoOCR is a simple yet effective Optical Character Recognition (OCR) application 
 
 ## Requirements
 1. [Tesseract OCR](https://github.com/tesseract-ocr/tesseract)
-2. GoOCR binary: Download the **latest release** from [GoOCR Releases](https://github.com/Wraient/gocr/releases/latest).
+2. Gocr binary: Download the **latest release** from [Gocr Releases](https://github.com/Wraient/gocr/releases/latest).
 
 ## Installing and Setup
 
-> **Note**: GoOCR requires Tesseract to work. Installation instructions for Tesseract on various Linux distributions are included below.
+> **Note**: Gocr requires Tesseract to work. Installation instructions for Tesseract on various Linux distributions are included below.
 
 ### Linux
 <details>
@@ -91,7 +91,7 @@ sudo mv gocr /usr/bin/
 
 ## Uninstallation
 
-To remove GoOCR:
+To remove Gocr:
 
 ```bash
 sudo rm /usr/bin/gocr
